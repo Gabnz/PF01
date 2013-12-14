@@ -21,3 +21,17 @@ PF01
 7. Halar los cambios existentes en github: `git pull -u origin master`
 
 8. Avisar haber realizado esto para proseguir.
+
+##Por hacer
+
+0. Carga de datos.
+
+1. Conversion de un modelo en su forma estandar.
+
+2. Implementacion de las dos fases.
+
+3. Aplicacion del metodo Simplex revisado.
+
+4. Muestra de los resultados.
+
+5. Desarrollo de la interfaz.

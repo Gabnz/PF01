@@ -3,7 +3,7 @@
 class SimplexRevisado{
 	/*vector fila de coeficientes*/
 	private $c;
-	/*vector columna de variables de desicion*/
+	/*vector columna de variables de decision*/
 	private $x;
 	/*matriz de coeficientes tecnologicos del problema*/
 	private $A;
@@ -12,17 +12,23 @@ class SimplexRevisado{
 	/*matriz identidad*/
 	private $I;
 	
-	private $prueba;
-	
-	public function SimplexRevisado($xin, $yin){
-		$this->prueba = 'hola';
-		
-		$this->c = array($xin);
+	/*constructor*/
+	public function SimplexRevisado(){
+		//print 'hola';
 	}
 	
-	/*metodo de prueba*/
-	public function getPrueba(){ 
-		return $this->prueba; 
+	public function setC($cin){
+		
+		$this->c = $cin;
+	}
+	
+	public function formaEstandar(){
+		
+		return true;
+	}
+	
+	public function dosFases(){
+		
 	}
 }
 ?>
