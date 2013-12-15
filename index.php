@@ -34,7 +34,6 @@
 			$restricciones = $problemaOriginal->getRestricciones();
 			$b = $problemaOriginal->getB();
 			$x = $problemaOriginal->getX();
-<<<<<<< HEAD
 			$c = $problemaOriginal->getC();
 			
 			print "<h1>Matriz (A,I) antes de estandarizar el modelo</h1>";
@@ -58,29 +57,10 @@
 			
 			$problemaOriginal->formaEstandar();
 			
-=======
-			print "<h1>Matriz (A,I) antes de estandarizar el modelo</h1>";
-			for ($i = 0; $i < count($b); $i++){
-				print "<p>";
-				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
-					print $AI[$i][$j]." ";
-				}
-				print $restricciones[$i]." ".$b[$i]."</p>";
-			}
-			print "<p>";
-			for ($i = 0; $i < $problemaOriginal->getNIncognitas(); $i++){
-				print $x[$i]." ";
-			}
-			print "</p>";
-			
-			$problemaOriginal->formaEstandar();
-			
->>>>>>> 91b4f18d0e8a22883f93d9dedbf1279f9454d71f
 			$AI = $problemaOriginal->getAI();
 			$restricciones = $problemaOriginal->getRestricciones();
 			$b = $problemaOriginal->getB();
 			$x = $problemaOriginal->getX();
-<<<<<<< HEAD
 			$c = $problemaOriginal->getC();
 			
 			print "<h1>Matriz (A,I) Despues de estandarizar el modelo</h1>";
@@ -89,9 +69,6 @@
 			for ($i = 0; $i < count($c); $i++)
 				print $c[$i]." ";
 				
-=======
-			print "<h1>Matriz (A,I) Despues de estandarizar el modelo</h1>";
->>>>>>> 91b4f18d0e8a22883f93d9dedbf1279f9454d71f
 			for ($i = 0; $i < count($b); $i++){
 				print "<p>";
 				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
@@ -105,8 +82,6 @@
 				print $x[$i]." ";
 			}
 			print "</p>";
-			
-			
 		?>
 	</body>
 </html>
