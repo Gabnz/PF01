@@ -26,7 +26,7 @@ PF01
 
 0. Carga de datos.
 
-1. Conversion de un modelo en su forma estandar.
+1. Conversion de un modelo en su forma estandar (listo, comprobar).
 
 2. Implementacion de las dos fases.
 

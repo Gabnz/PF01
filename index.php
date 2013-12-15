@@ -10,31 +10,80 @@
 			include 'clases/SimplexRevisado.php';
 			$problemaOriginal = new SimplexRevisado;
 			
-			/*entrada de datos arbitraria*/
+			/*carga simulada de datos*/
+			$objetivo = 'MAX';
+			$c = Array(3, 5);
+			$x = Array('x1','x2');
+			$AI = Array(Array(1, 0), Array(0, 2), Array(3, 2));
+			$restricciones = Array('<=', '<=', '<=');
+			$b = Array(4, 12, 18);
+			$nincognitas = 2;
+			$problemaOriginal->setObjetivo($objetivo);
+			$problemaOriginal->setC($c);
+			$problemaOriginal->setX($x);
+			$problemaOriginal->setAI($AI);
+			$problemaOriginal->setRestricciones($restricciones);
+			$problemaOriginal->setB($b);
+			$problemaOriginal->setNIncognitas($nincognitas);
+			/*fin de carga simulada*/
 			
-			/*problema de maximizacion o minimizacion*/
-			$tipoProblema = 'MAX'; echo $tipoProblema;
+			$problemaOriginal->objetivo();
+			$problemaOriginal->noNegatividad();
 			
-			/*vector fila de coeficientes*/
-			$c = Array('a','b','c');
+			$AI = $problemaOriginal->getAI();
+			$restricciones = $problemaOriginal->getRestricciones();
+			$b = $problemaOriginal->getB();
+			$x = $problemaOriginal->getX();
+			$c = $problemaOriginal->getC();
 			
-			/*vector columna de variables de decision*/
-			$x = Array('1','2','3');
+			print "<h1>Matriz (A,I) antes de estandarizar el modelo</h1>";
 			
-			/*matriz de coeficientes tecnologicos del problema*/
-			$A = Array(
-					Array('Origen', '1'),
-					Array('juas', '2'));
-					
-			/*vector columna de lados derechos de las restricciones*/
-			$b = Array('z','x','c');
+			print "funcion objetivo: ";
+			for ($i = 0; $i < count($c); $i++)
+				print $c[$i]." ";
 			
-			/*matriz identidad*/
-			$I = Array(
-					Array('Origen', '1'),
-					Array('juas', '2'));
+			for ($i = 0; $i < count($b); $i++){
+				print "<p>";
+				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
+					print $AI[$i][$j]." ";
+				}
+				print $restricciones[$i]." ".$b[$i]."</p>";
+			}
+			print "<p>";
+			for ($i = 0; $i < $problemaOriginal->getNIncognitas(); $i++){
+				print $x[$i]." ";
+			}
+			print "</p>";
 			
-			echo $A[0][0]." ".$A[0][1];
+			$problemaOriginal->formaEstandar();
+			
+			$AI = $problemaOriginal->getAI();
+			$restricciones = $problemaOriginal->getRestricciones();
+			$b = $problemaOriginal->getB();
+			$x = $problemaOriginal->getX();
+			$c = $problemaOriginal->getC();
+			
+			print "<h1>Matriz (A,I) Despues de estandarizar el modelo</h1>";
+			
+			print "funcion objetivo: ";
+			for ($i = 0; $i < count($c); $i++)
+				print $c[$i]." ";
+				
+			for ($i = 0; $i < count($b); $i++){
+				print "<p>";
+				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
+					print $AI[$i][$j]." ";
+				}
+				print $restricciones[$i]." ".$b[$i]."</p>";
+			}
+			
+			print "<p>";
+			for ($i = 0; $i < $problemaOriginal->getNIncognitas(); $i++){
+				print $x[$i]." ";
+			}
+			print "</p>";
+			
+			
 		?>
 	</body>
 </html>
