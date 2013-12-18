@@ -7,8 +7,13 @@
 	<body>
 		<div align="center">Simplex Revisado</div>
 		<?php
+
+
 			include 'clases/SimplexRevisado.php';
 			$problemaOriginal = new SimplexRevisado;
+
+			include 'clases/MatrixOP.php';
+			$matrixOP = new MatrixOP;
 			
 			/*carga simulada de datos*/
 			$objetivo = 'MAX';
@@ -82,6 +87,18 @@
 				print $x[$i]." ";
 			}
 			print "</p>";
+
+			/*
+				$matrix1 = array(array(2, 1),	array(0, 3), 	array(1, 0));
+				$matrix2 = array(array(1, 0, 0),	array(3, 4, 2));
+					
+				print "<h1> Prueba Multiplicacion de Matrices </h1>";
+				print "<p>"; 
+				 $matrix0 = $matrixOP->MultiMxM($matrix1, $matrix2);
+				 $matrixOP->MatrixPrint($matrix0); 
+				print "</p>";
+			*/
+			
 		?>
 	</body>
 </html>
