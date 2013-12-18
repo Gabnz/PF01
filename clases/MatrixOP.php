@@ -8,6 +8,7 @@ class MatrixOP{
 		print '<p>instancia de clase creada. MatrixOP </p>';
 	}
 
+	/* comentarios */
 	public function MUltiMxM($a, $b){
 		
 		$filasA = count($a);
@@ -32,8 +33,23 @@ class MatrixOP{
 
 		return $ab;
 	}	
-	
 
+	/* comentarios */
+	public static function MultiVxV($a, $b){
+
+	    if (($length = count($a)) != count($b)) {
+	          throw new \Exception('Vector mismatch');
+	    }
+
+       	$product = 0;
+       	for ($i = 0; $i < $length; ++$i) {
+            $product += $a[$i] * $b[$i];
+       	}
+        return $product;
+	}	
+
+
+	/* comentarios */
 	public function MatrixPrint($a){
 		
 		$filasA = count($a);

@@ -91,11 +91,17 @@
 			/*
 				$matrix1 = array(array(2, 1),	array(0, 3), 	array(1, 0));
 				$matrix2 = array(array(1, 0, 0),	array(3, 4, 2));
-					
-				print "<h1> Prueba Multiplicacion de Matrices </h1>";
+			
+				$matrix1 = array(1, 4);
+				$matrix2 = array(3, 4);
+
+				print "<h1> Prueba Multiplicacion de Matrices  y Vectores </h1>";
 				print "<p>"; 
-				 $matrix0 = $matrixOP->MultiMxM($matrix1, $matrix2);
-				 $matrixOP->MatrixPrint($matrix0); 
+				// $matrix0 = $matrixOP->MultiMxM($matrix1, $matrix2);
+				//$matrixOP->MatrixPrint($matrix0); 
+				
+				//$matrix0 = $matrixOP->MultiVxV($matrix1, $matrix2);
+				//print $matrix0;
 				print "</p>";
 			*/
 			
