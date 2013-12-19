@@ -234,13 +234,13 @@ class SimplexRevisado{
 			
 			print "<p>Xb = (B^-1)*b = </p>";
 			//ERROR, b DEBE ACTUALIZARSE AL MOMENTO DE INVERTIR LA MATRIZ
-			$auxb = $matrixOP->VectorPrint($matrixOP->MultiMxV($B_1,$this->b));
-			$this->b = $auxb;
+			//$auxb = $matrixOP->MultiMxV($B_1,$this->b);
+			//$this->b = $auxb;
 			print "<p>------------------------------------</p>";
 			/*Paso 2.*/
 			for($j = 0; $j < $nnobasicas; $j++){
 				//ERROR DE MULTIPLICACION
-				$aux = $matrixOP->MultiMxV($B_1, $Cb);
+				$aux = $matrixOP->MultiVxM($B_1, $Cb);
 				$print_aux = $aux;
 				//HASTA AQUI TODO "BIEN"
 				for ($k = 0; $k < $n; $k++)
