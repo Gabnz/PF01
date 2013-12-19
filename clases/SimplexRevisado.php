@@ -1,4 +1,5 @@
 <?php
+include 'MatrixOP.php';
 /*clase del metodo simplex revisado*/
 class SimplexRevisado{
 	/*objetivo del problema, maximizar o minimizar*/
@@ -120,8 +121,6 @@ class SimplexRevisado{
 			/*se determina si alguna ecuacion necesita variable artificial*/
 			if($this->restricciones[$i] == ">=" || $this->restricciones[$i] == "=")
 				$variableArtificial = true;
-			else
-				$variableArtificial = false;
 		}
 		/*si no se necesitan variables artificiales (caso corto donde todas las restricciones son <=)*/
 		if(!$variableArtificial){
@@ -182,9 +181,60 @@ class SimplexRevisado{
 			}
 		}
 	}
-	
-	public function dosFases(){
+	/*retorna si hay variables artificiales en el modelo estandar*/
+	public function existenArtificiales(){
 		
+		$n = $this->nincognitas;
+		
+		for ($i = 0; $i < $n; $i++){
+			
+			if($this->x[$i][0] == "a")
+				return true;
+		}
+		return false;
+	}
+	
+	public function metodoSimplexRevisado(){
+		
+		$matrixOP = new MatrixOP;
+		/*Paso 0. En la primera iteracion $B tiene la matriz identidad y $Cb tiene ceros.*/
+		$n = count($this->AI);
+		$B = Array(Array());
+		$Cb = Array();
+		for ($i = 0; $i < $n; $i++){
+			$Cb[$i] = 0;
+			for ($j = 0; $j < $n; $j++){
+				
+				if($i != $j)
+					$B[$i][$j] = 0;
+				else
+					$B[$i][$j] = 1;
+			}
+		}
+		/*Paso 1. Se calcula B^(-1)*/
+		//$matrixOP->MatrixPrint($B);
+		$B = $matrixOP->Cofactor($B, $n);
+		//$matrixOP->MatrixPrint($B);
+		
+		/*Paso 2.*/
+		$nnobasicas = $this->nincognitas - $n;
+		
+		for ($j = 0; $j < $nnobasicas; $j++){
+			
+			$z_c = $matrixOP->MUltiMxM($B, $Cb);
+			print $z_c[$j][$j]." ";
+			//$aux = $matrixOP->MUltiMxM($aux, $this->AI[$j]);
+			//$z_c[$j] = $aux - $this->c[$j];
+			
+			//print $z_c[$j]." ";
+		}
+		
+		print "<p>veo que quieres ejecutar el metodo simplex revisado. seria una lastima si...</p>";
+	}
+	
+	public function metodoDosFases(){
+		
+		print "<p>veo que quieres ejecutar el metodo de las dos fases. seria una lastima si...</p>";
 	}
 }
 ?>

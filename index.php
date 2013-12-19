@@ -8,20 +8,33 @@
 		<div align="center">Simplex Revisado</div>
 		<?php
 
-
 			include 'clases/SimplexRevisado.php';
 			$problemaOriginal = new SimplexRevisado;
 
-			include 'clases/MatrixOP.php';
-			$matrixOP = new MatrixOP;
-			
-			/*carga simulada de datos*/
+			/*carga simulada de datos
 			$objetivo = 'MAX';
 			$c = Array(3, 5);
 			$x = Array('x1','x2');
 			$AI = Array(Array(1, 0), Array(0, 2), Array(3, 2));
 			$restricciones = Array('<=', '<=', '<=');
 			$b = Array(4, 12, 18);
+			$nincognitas = 2;
+			$problemaOriginal->setObjetivo($objetivo);
+			$problemaOriginal->setC($c);
+			$problemaOriginal->setX($x);
+			$problemaOriginal->setAI($AI);
+			$problemaOriginal->setRestricciones($restricciones);
+			$problemaOriginal->setB($b);
+			$problemaOriginal->setNIncognitas($nincognitas);
+			fin de carga simulada*/
+			
+			/*carga simulada de datos*/
+			$objetivo = 'MAX';
+			$c = Array(5, 4);
+			$x = Array('x1','x2');
+			$AI = Array(Array(6, 4), Array(1, 2), Array(-1, 1), Array(0, 1));
+			$restricciones = Array('<=', '<=', '<=', '<=');
+			$b = Array(24, 6, 1, 2);
 			$nincognitas = 2;
 			$problemaOriginal->setObjetivo($objetivo);
 			$problemaOriginal->setC($c);
@@ -87,7 +100,8 @@
 				print $x[$i]." ";
 			}
 			print "</p>";
-
+			
+			$problemaOriginal->metodoSimplexRevisado();
 
 			/*
 
