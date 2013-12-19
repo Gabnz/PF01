@@ -34,6 +34,22 @@ class MatrixOP{
 		return $ab;
 	}	
 
+
+	/* comentarios */
+	public static function MultiMxV($m, $v){
+
+	    if (($length = count($m)) != count($v)) {
+	          throw new \Exception('Vector and Matrix mismatch');
+	    }
+
+       	for ($i = 0; $i < $length; ++$i) {
+       		for ($j=0; $j < $lengt; $j++) { 
+       			$product[$i] += $m[$i][$j] * $v[$i];
+       		}
+       	}
+        return $product;
+	}	
+
 	/* comentarios */
 	public static function MultiVxV($a, $b){
 
@@ -101,7 +117,7 @@ class MatrixOP{
 	 
 	    return $det;
 	}
-	
+
 
 	public function  Cofactor($num, $f){
 
