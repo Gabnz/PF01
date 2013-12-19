@@ -43,7 +43,7 @@ class MatrixOP{
 	    }
 
        	for ($i = 0; $i < $length; ++$i) {
-       		for ($j=0; $j < $lengt; $j++) { 
+       		for ($j=0; $j < $length; $j++) { 
        			$product[$i] += $m[$i][$j] * $v[$i];
        		}
        	}
