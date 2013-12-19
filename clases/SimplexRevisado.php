@@ -197,39 +197,142 @@ class SimplexRevisado{
 	public function metodoSimplexRevisado(){
 		
 		$matrixOP = new MatrixOP;
-		/*Paso 0. En la primera iteracion $B tiene la matriz identidad y $Cb tiene ceros.*/
+		/*Paso 0. $B tiene la matriz identidad y $Cb tiene ceros.*/
 		$n = count($this->AI);
-		$B = Array(Array());
-		$Cb = Array();
-		for ($i = 0; $i < $n; $i++){
+		$esOptima = true;
+		$detenerse = false;
+		for($i = 0; $i < $n; $i++){
 			$Cb[$i] = 0;
-			for ($j = 0; $j < $n; $j++){
-				
+			for($j = 0; $j < $n; $j++){
 				if($i != $j)
 					$B[$i][$j] = 0;
 				else
 					$B[$i][$j] = 1;
 			}
 		}
+		print "<h4>Paso 0</h4>";
+		print "<p>Funcion objetivo</p>";
+		$matrixOP->VectorPrint($this->c);
+		print "<p>V. de decision</p>";
+		$matrixOP->VectorPrint($this->x);
+		print "<p>Matriz actual</p>";
+		$matrixOP->MatrixPrint($B);
+		print "<p>Lado derecho</p>";
+		$matrixOP->VectorPrint($this->b);
+		$iteracion = 0;
+		while(!$detenerse){
+			$iteracion++;
+		print "<h1>Iteracion ".$iteracion."</h1>";
 		/*Paso 1. Se calcula B^(-1)*/
-		//$matrixOP->MatrixPrint($B);
-		$B = $matrixOP->Cofactor($B, $n);
-		//$matrixOP->MatrixPrint($B);
+		$B_1 = $matrixOP->Cofactor($B, $n);
+		print "<h4>Paso 1</h4>";
+		print "<p>Matriz actual</p>";
+		$matrixOP->MatrixPrint($B_1);
+		print "<p>Solucion</p>";
+		$matrixOP->VectorPrint($Cb);
 		
 		/*Paso 2.*/
 		$nnobasicas = $this->nincognitas - $n;
 		
-		for ($j = 0; $j < $nnobasicas; $j++){
+		for($j = 0; $j < $nnobasicas; $j++){
 			
-			$z_c = $matrixOP->MUltiMxM($B, $Cb);
-			print $z_c[$j][$j]." ";
-			//$aux = $matrixOP->MUltiMxM($aux, $this->AI[$j]);
-			//$z_c[$j] = $aux - $this->c[$j];
+			$aux = $matrixOP->MultiMxV($B_1, $Cb);
 			
-			//print $z_c[$j]." ";
+			$print_aux = $aux;
+			
+			for ($k = 0; $k < $n; $k++)
+				$Pj[$k] = $this->AI[$k][$j];
+			
+			$aux = $matrixOP->MultiVxV($aux, $Pj);
+			
+			$z_c[$j] = $aux - $this->c[$j];
+			
+			if($z_c[$j] < 0)
+				$esOptima = false;
+			
+			$this->c[$j] = $z_c[$j];
 		}
+		print "<h4>Paso 2</h4>";
+		print "<p>(B^-1)*Cb</p>";
+		$matrixOP->VectorPrint($print_aux);
 		
-		print "<p>veo que quieres ejecutar el metodo simplex revisado. seria una lastima si...</p>";
+		print "<p>computo de optimalidad</p>";
+		$matrixOP->VectorPrint($z_c);
+		
+		if($esOptima){
+			print "listo, llegaste.";
+			$detenerse = true;
+		}else{
+			
+			/*se elige la variable entrante*/
+			$ventrante = 0;
+			
+			for($j = 0; $j < $nnobasicas; $j++){
+				if($z_c[$j] < $z_c[$ventrante])
+					$ventrante = $j;
+			}
+			print "<p>variable entrante: ".$this->x[$ventrante]."</p>";
+			
+			/*paso 3*/
+			print "<h4>Paso 3</h4>";
+			for ($j = 0; $j < $n; $j++)
+				$Pj[$j] = $this->AI[$j][$ventrante];
+			
+			print "<p>vector columna entrante</p>";
+			$matrixOP->VectorPrint($Pj);
+			
+			$aux = $matrixOP->MultiMxV($B_1, $Pj);
+			
+			print "<p>(B^-1)*Pj</p>";
+			$matrixOP->VectorPrint($aux);
+			
+			$solucionAcotada = false;
+			for ($j = 0; $j < $n && !$solucionAcotada; $j++){
+				
+				if($aux[$j] > 0)
+					$solucionAcotada = true;
+			}
+			
+			/*si no hay solucion acotada, detenerse.*/
+			if(!$solucionAcotada){
+				print "no hay solucion acotada.";
+				$detenerse = true;
+			}else{
+				$aux2 = $matrixOP->MultiMxV($B_1,$this->b);
+				
+				for ($j = 0; $j < $n; $j++){
+					
+					if($aux[$j] == 0)
+						$razon[$j] = "indeterminado";
+					else if($aux[$j] < 0 || $aux2[$j] < 0)
+						$razon[$j] = "negativo";
+					else{
+						$vsaliente = $j;
+						$razon[$j] = $aux2[$j]/$aux[$j];
+					}
+				}
+				
+				print "<p>razon</p>";
+				$matrixOP->VectorPrint($razon);
+				for($j = 0; $j < $n; $j++){
+					
+					if($razon[$j] != "indeterminado" && $razon[$j] != "negativo" && $razon[$j] < $razon[$vsaliente])
+						$vsaliente = $j;
+				}
+				print "<h4>Paso 4</h4>";
+				print "<p>variable saliente: ".$this->x[$nnobasicas + $vsaliente]."</p>";
+				
+				for ($j = 0; $j < $n; $j++){
+					$intercambio = $B[$j][$vsaliente];
+					$B[$j][$vsaliente] = $this->AI[$j][$ventrante];
+					$this->AI[$j][$ventrante] = $intercambio;
+				}
+				$Cb[$vsaliente] = $this->c[$ventrante];
+				print "<p>nueva matriz B</p>";
+				$matrixOP->MatrixPrint($B);
+			}
+		}
+		}
 	}
 	
 	public function metodoDosFases(){

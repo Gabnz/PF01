@@ -81,6 +81,18 @@ class MatrixOP{
     	}
 		print '</table>';
 	}
+	
+	public function VectorPrint($a){
+		
+		$n = count($a);
+		print	"<table border='1'>
+					<tr>";
+		for($i = 0; $i < $n; $i++){
+			print "<td>".$a[$i]."</td>";
+		}
+		print	"	</tr>
+				</table>";
+	}
 
 
 /*For calculating Determinant of the Matrix */
