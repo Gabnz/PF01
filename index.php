@@ -88,6 +88,19 @@
 			}
 			print "</p>";
 
+
+			/*
+
+			print "<p> Probando inversa de una matriz. ";
+			$matrix0 = array(array(1, 1, 0),	array(1, 0, 1), 	array(0, 1, 0));
+			
+			$matrixOP->MatrixPrint($matrix0); 
+			$inverse = $matrixOP->Cofactor($matrix0, 3);
+			$matrixOP->MatrixPrint($inverse);
+
+			print " Salio </p>";
+			*/
+
 			/*
 				$matrix1 = array(array(2, 1),	array(0, 3), 	array(1, 0));
 				$matrix2 = array(array(1, 0, 0),	array(3, 4, 2));
@@ -99,7 +112,7 @@
 				print "<p>"; 
 				// $matrix0 = $matrixOP->MultiMxM($matrix1, $matrix2);
 				//$matrixOP->MatrixPrint($matrix0); 
-				
+
 				//$matrix0 = $matrixOP->MultiVxV($matrix1, $matrix2);
 				//print $matrix0;
 				print "</p>";
