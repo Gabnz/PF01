@@ -78,18 +78,6 @@ class SimplexRevisado{
 		return $this->nincognitas;
 	}
 	
-	/*si el objetivo es minimizar, lo cambia a maximizar con la funcion objetivo
-	 * multiplicada por (-1)*/
-	public function objetivo(){
-		
-		if($this->objetivo == 'MIN'){
-			
-			$n = count($this->c);
-			for($i = 0; $i < $n; $i++)
-				$this->c[$i] = $this->c[$i]*-1;
-		}
-	}
-	
 	/*se asegura que los lados derechos de las restricciones sean no-negativas,
 	 * de lo contrario realiza los cambios necesarios para que asi sea.*/
 	public function noNegatividad(){
@@ -228,7 +216,9 @@ class SimplexRevisado{
 				$aux = $matrixOP->MultiVxV($aux, $Pj);
 				$z_c[$j] = $aux - $this->c[$j];
 				
-				if($z_c[$j] < 0)
+				/*evaluacion de condicion de parada de maximizacion y minimizacion*/
+				if(($this->objetivo == "MAX" && $z_c[$j] < 0)
+				|| ($this->objetivo == "MIN" && $z_c[$j] > 0))
 					$esOptima = false;
 			}
 			
@@ -248,7 +238,9 @@ class SimplexRevisado{
 				$ventrante = 0;
 				
 				for($j = 0; $j < $nnobasicas; $j++){
-					if($z_c[$j] < $z_c[$ventrante])
+					
+					if(($this->objetivo == "MAX" && $z_c[$j] < $z_c[$ventrante])
+					|| ($this->objetivo == "MIN" && $z_c[$j] > $z_c[$ventrante]))
 						$ventrante = $j;
 				}
 				
@@ -308,6 +300,9 @@ class SimplexRevisado{
 	}
 	
 	public function metodoDosFases(){
+		
+		/*fase 1*/
+		
 		
 		print "<p>veo que quieres ejecutar el metodo de las dos fases. seria una lastima si...</p>";
 	}

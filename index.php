@@ -11,7 +11,7 @@
 			include 'clases/SimplexRevisado.php';
 			$problemaOriginal = new SimplexRevisado;
 
-			/*carga simulada de datos
+			/*carga simulada de datos*/
 			$objetivo = 'MAX';
 			$c = Array(3, 5);
 			$x = Array('x1','x2');
@@ -26,9 +26,9 @@
 			$problemaOriginal->setRestricciones($restricciones);
 			$problemaOriginal->setB($b);
 			$problemaOriginal->setNIncognitas($nincognitas);
-			fin de carga simulada*/
+			/*fin de carga simulada*/
 			
-			/*carga simulada de datos*/
+			/*carga simulada de datos
 			$objetivo = 'MAX';
 			$c = Array(5, 4);
 			$x = Array('x1','x2');
@@ -63,8 +63,6 @@
 			$problemaOriginal->setNIncognitas($nincognitas);
 			/*fin de carga simulada*/
 
-			
-			$problemaOriginal->objetivo();
 			$problemaOriginal->noNegatividad();
 			
 			$AI = $problemaOriginal->getAI();
