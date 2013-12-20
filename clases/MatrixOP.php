@@ -36,6 +36,21 @@ class MatrixOP{
 
 
 	/* comentarios */
+	public static function MultiVxM($m, $v){
+
+	    if (($length = count($m)) != count($v)) {
+	          throw new \Exception('Vector and Matrix mismatch');
+	    }
+
+       	for ($i = 0; $i < $length; ++$i) {
+       		for ($j=0; $j < $length; $j++) { 
+       			$product[$i] += $m[$j][$i] * $v[$i];
+       		}
+       	}
+        return $product;
+	}
+
+	/* comentarios */
 	public static function MultiMxV($m, $v){
 
 	    if (($length = count($m)) != count($v)) {
