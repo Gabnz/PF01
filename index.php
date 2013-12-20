@@ -11,7 +11,27 @@
 			include 'clases/SimplexRevisado.php';
 			$problemaOriginal = new SimplexRevisado;
 
-			/*carga simulada de datos*/
+			/*carga simulada de datos */
+			$objetivo = 'MIN';
+			$c = Array(4, 1);
+			$x = Array('x1','x2');
+			$AI = Array(Array(3, 1), Array(4, 3), Array(1, 2));
+			$restricciones = Array('=', '>=', '<=');
+			$b = Array(3, 6, 4);
+			$nincognitas = 2;
+			$problemaOriginal->setObjetivo($objetivo);
+			$problemaOriginal->setC($c);
+			$problemaOriginal->setX($x);
+			$problemaOriginal->setAI($AI);
+			$problemaOriginal->setRestricciones($restricciones);
+			$problemaOriginal->setB($b);
+			$problemaOriginal->setNIncognitas($nincognitas);
+			/*fin de carga simulada*/
+
+
+
+
+			/*carga simulada de datos 
 			$objetivo = 'MAX';
 			$c = Array(3, 5);
 			$x = Array('x1','x2');
@@ -118,36 +138,14 @@
 			}
 			print "</p>";
 			
-			$problemaOriginal->metodoSimplexRevisado();
 
-			/*
 
-			print "<p> Probando inversa de una matriz. ";
-			$matrix0 = array(array(1, 1, 0),	array(1, 0, 1), 	array(0, 1, 0));
-			
-			$matrixOP->MatrixPrint($matrix0); 
-			$inverse = $matrixOP->Cofactor($matrix0, 3);
-			$matrixOP->MatrixPrint($inverse);
-
-			print " Salio </p>";
-			*/
-
-			/*
-				$matrix1 = array(array(2, 1),	array(0, 3), 	array(1, 0));
-				$matrix2 = array(array(1, 0, 0),	array(3, 4, 2));
-			
-				$matrix1 = array(1, 4);
-				$matrix2 = array(3, 4);
-
-				print "<h1> Prueba Multiplicacion de Matrices  y Vectores </h1>";
-				print "<p>"; 
-				// $matrix0 = $matrixOP->MultiMxM($matrix1, $matrix2);
-				//$matrixOP->MatrixPrint($matrix0); 
-
-				//$matrix0 = $matrixOP->MultiVxV($matrix1, $matrix2);
-				//print $matrix0;
-				print "</p>";
-			*/
+			if (!$problemaOriginal->existenArtificiales()){
+				print "entro here"; 
+			 	$problemaOriginal->metodoSimplexRevisado();
+			 }
+			 else
+				$problemaOriginal->metodoDosFases();
 			
 		?>
 	</body>

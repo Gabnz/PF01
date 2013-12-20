@@ -160,13 +160,15 @@ class SimplexRevisado{
 						if($j!=$i)
 							$this->AI[$j][] = 0;
 					}
-					$this->nincognitas++;
+					//$this->nincognitas++;
 					$nartificiales++;
 					$this->x[] = "a".$nartificiales;
 					$this->c[] = 1;
 				}
+
 				$this->restricciones[$i] = "=";
 			}
+			$this->nincognitas = $this->nincognitas + $nartificiales;
 		}
 	}
 	/*retorna si hay variables artificiales en el modelo estandar*/
@@ -302,7 +304,56 @@ class SimplexRevisado{
 	public function metodoDosFases(){
 		
 		/*fase 1*/
-		
+		$nartificiales=0;
+		$n = count($this->x);
+		$nnobasicas = $this->nincognitas - count($this->b);
+		for ($i=0; $i < $n; $i++) {
+			if ($this->x[$i][0] == "a") {
+				$nartificiales++;
+				$iartifiaciales[] = $i;
+				$ecartifiaciales[] = $i - $nnobasicas;
+			}
+		}
+
+		for($i=0; $i < $nartificiales; $i++){
+
+			$nfilas = 0;
+			for($j=0; $j < $this->nincognitas; $j++){
+
+				if($j != $iartifiaciales[$i]){
+					$filas[$i][$nfilas] = $this->AI[$ecartifiaciales[$i]][$j]*-1;
+					$nfilas++;
+				}
+			}
+			$filas[$i][$nfilas] = $this->b[$i];
+		}
+
+		$ncolumnas = count($filas[0]);
+
+		for($i=0; $i < $nartificiales; $i++){
+
+			for($j=0; $j < $ncolumnas; $j++){ 
+				$resultado[$j]+=$filas[$i][$j];
+			}
+		}
+
+		$matrixOP = new MatrixOP;
+		print "<p>Ecuacion resultante</p>";
+		$matrixOP->VectorPrint($resultado);
+
+		for ($i=0; $i < $ncolumnas; $i++) { 
+			$z[$i] = $resultado[$i] * -1;
+		}
+		$z[$i - 1] = $resultado[$i - 1];
+
+		print "<p> Vector z </p>";
+		$matrixOP->VectorPrint($z);
+
+
+
+		print "<p> Matriz AI </p>";
+		$matrixOP->MatrixPrint($this->AI);
+
 		
 		print "<p>veo que quieres ejecutar el metodo de las dos fases. seria una lastima si...</p>";
 	}
