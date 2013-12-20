@@ -1,14 +1,16 @@
 <?php
-/**/
+/* 	Libreria que contiene todas las operaciones necesarias para implementar el metodo simplex revisado 
+ * 	Tanto operaciones de matrices como operaciones de vectores
+ */
 class MatrixOP{
 	
-	
-	/*constructor*/
+	/*	Constructor	*/
 	public function MatrixOP(){
-		print '<p>instancia de clase creada. MatrixOP </p>';
+		//print '<p>instancia de clase creada. MatrixOP </p>';
 	}
 
-	/* comentarios */
+
+	/* Multiplicacion de una Matriz por otra matriz */
 	public function MUltiMxM($a, $b){
 		
 		$filasA = count($a);
@@ -16,9 +18,8 @@ class MatrixOP{
 		$filasB = count($b);
 		$columnasB = count($b[0]);
 
-		if ( $columnasA  != $filasB ) {
-            throw new \Exception('Matrix mismatch');
-        }
+		if ( $columnasA  != $filasB )
+            print "Matrix mismatch";  
         else{
 
 			for($i = 0; $i < $filasA; $i++) {
@@ -30,12 +31,11 @@ class MatrixOP{
 	        	}
     		}
 		}
-
 		return $ab;
 	}	
 
 
-	/* comentarios */
+	/* Multiplicacion de un Vector por una Matriz. Metodo Fila */
 	public static function MultiVxM($m, $v){
 
 	    if (($length = count($m)) != count($v)) {
@@ -50,37 +50,41 @@ class MatrixOP{
         return $product;
 	}
 
-	/* comentarios */
+
+	/* Multiplicacion de una Matriz por un Vector. Metodo Columna */
 	public static function MultiMxV($m, $v){
 
 	    if (($length = count($m)) != count($v)) {
-	          throw new \Exception('Vector and Matrix mismatch');
+	          print "Vector and Matrix mismatch";
 	    }
 
        	for ($i = 0; $i < $length; ++$i) {
        		for ($j=0; $j < $length; $j++) { 
-       			$product[$i] += $m[$i][$j] * $v[$i];
+    
+       			$product[$i] +=  $m[$i][$j] * $v[$j];
        		}
+ 
        	}
         return $product;
 	}	
 
-	/* comentarios */
+
+	/* Multiplicacion entre dos Vectores */
 	public static function MultiVxV($a, $b){
 
 	    if (($length = count($a)) != count($b)) {
-	          throw new \Exception('Vector mismatch');
+	          print "Vector mismatch";
 	    }
 
        	$product = 0;
-       	for ($i = 0; $i < $length; ++$i) {
+       	for ($i = 0; $i < $length; ++$i)
             $product += $a[$i] * $b[$i];
-       	}
+       	
         return $product;
 	}	
 
 
-	/* comentarios */
+	/* Impresion de una Matriz en una tabla de HTML */
 	public function MatrixPrint($a){
 		
 		$filasA = count($a);
@@ -97,20 +101,22 @@ class MatrixOP{
 		print '</table>';
 	}
 	
+
+	/* Impresion de un Vector en una tabla de HTML */
 	public function VectorPrint($a){
 		
 		$n = count($a);
 		print	"<table border='1'>
 					<tr>";
-		for($i = 0; $i < $n; $i++){
+		for($i = 0; $i < $n; $i++)
 			print "<td>".$a[$i]."</td>";
-		}
+		
 		print	"	</tr>
 				</table>";
 	}
 
 
-/*For calculating Determinant of the Matrix */
+	/* Calcula el determinante de una Matriz */
 	public function  Determinant($a, $k){
 		
 		$s = 1; $det = 0;
@@ -136,9 +142,8 @@ class MatrixOP{
 		                }
 		             }
 		        }
-		          $det = $det + $s * ($a[0][$c] * $this->Determinant($b, ($k-1)));
-
-		          $s=-1 * $s;
+		        $det = $det + $s * ($a[0][$c] * $this->Determinant($b, ($k-1)));
+		        $s=-1 * $s;
 		    }
 		}
 	 
@@ -146,6 +151,7 @@ class MatrixOP{
 	}
 
 
+	/* Calcula la Inversa de una Matriz */
 	public function  Cofactor($num, $f){
 
 		for ($q=0; $q < $f; $q++){
@@ -180,7 +186,7 @@ class MatrixOP{
 	}
 
 
-	/*Finding transpose of matrix*/ 
+	/* Calcula la Traspuesta de una Matriz*/ 
 	public function Transpose($num, $fac, $r){
 	  
 	  	for ($i=0; $i < $r; $i++){
@@ -197,10 +203,8 @@ class MatrixOP{
 	        	$result[$i][$j]= $b[$i][$j] / $d;
 	        }
 	    }
-
 		return $result;
 	}
-
 
 }
 ?>	

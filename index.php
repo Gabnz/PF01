@@ -28,7 +28,7 @@
 			$problemaOriginal->setNIncognitas($nincognitas);
 			fin de carga simulada*/
 			
-			/*carga simulada de datos*/
+			/*carga simulada de datos */
 			$objetivo = 'MAX';
 			$c = Array(5, 4);
 			$x = Array('x1','x2');
@@ -44,6 +44,25 @@
 			$problemaOriginal->setB($b);
 			$problemaOriginal->setNIncognitas($nincognitas);
 			/*fin de carga simulada*/
+
+
+			/*carga simulada de datos ejemplo de kiara 
+			$objetivo = 'MAX';
+			$c = Array(3, 5);
+			$x = Array('x1','x2');
+			$AI = Array(Array(1, 0), Array(0, 2), Array(3, 2));
+			$restricciones = Array('<=', '<=', '<=');
+			$b = Array(4, 12, 18);
+			$nincognitas = 2;
+			$problemaOriginal->setObjetivo($objetivo);
+			$problemaOriginal->setC($c);
+			$problemaOriginal->setX($x);
+			$problemaOriginal->setAI($AI);
+			$problemaOriginal->setRestricciones($restricciones);
+			$problemaOriginal->setB($b);
+			$problemaOriginal->setNIncognitas($nincognitas);
+			/*fin de carga simulada*/
+
 			
 			$problemaOriginal->objetivo();
 			$problemaOriginal->noNegatividad();

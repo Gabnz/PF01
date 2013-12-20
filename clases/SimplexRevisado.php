@@ -225,6 +225,7 @@ class SimplexRevisado{
 
 		
 		while(!$detenerse){
+			$esOptima = true;
 			print "<h1>Iteracion ".$iteracion."</h1>";
 			/*Paso 1. Se calcula B^(-1)*/
 			$B_1 = $matrixOP->Cofactor($B, $n);
@@ -247,26 +248,9 @@ class SimplexRevisado{
 				//HASTA AQUI TODO "BIEN"
 				for ($k = 0; $k < $n; $k++)
 					$Pj[$k] = $this->AI[$k][$j];
-
-
-					print '</p>';
-				$matrixOP->VectorPrint($this->c); 
-
-				print '<p>---j vale </p>'.$j.'</p>';
-				print '<p>----------aux vector';
-
-				$matrixOP->VectorPrint($aux); print '</p>';				
+				print '</p>';
 				
 				$aux = $matrixOP->MultiVxV($aux, $Pj);
-
-				print '<p>----------Pj vector';
-
-				$matrixOP->VectorPrint($Pj); print '</p>';
-
-				print '<p>----------aux valor '. $aux. '</p>';
-
-				print '<p>----------c a restar a aux'. $this->c[$j]. '</p>';
-				//POTENCIAL ERROR
 				$z_c[$j] = $aux - $this->c[$j];
 				
 				if($z_c[$j] < 0)
@@ -284,6 +268,17 @@ class SimplexRevisado{
 			
 			if($esOptima){
 				print "listo, llegaste.";
+
+				print "<p> valor optimo de las variables X</p>";
+
+				$z = $matrixOP->MultiMxV($B_1,$this->b);
+				$matrixOP->VectorPrint($z);
+
+				$z_result = $matrixOP->MultiVxV($z,$Cb);
+				print "<p> valor de z </p>";
+				print $z_result;
+				print "<p> bueno chao </p>";
+
 				$detenerse = true;
 			}else{
 				
@@ -303,6 +298,8 @@ class SimplexRevisado{
 				
 				print "<p>vector columna entrante</p>";
 				$matrixOP->VectorPrint($Pj);
+				print "<p>Matriz B_1</p>";
+				$matrixOP->MatrixPrint($B_1);
 				
 				$aux = $matrixOP->MultiMxV($B_1, $Pj);
 				
@@ -334,9 +331,7 @@ class SimplexRevisado{
 							$razon[$j] = $aux2[$j]/$aux[$j];
 						}
 					}
-					print "<h4>vsaliente  ";
-					print $vsaliente;
-					print " </h4>";
+	
 					
 					print "<p>razon</p>";
 					$matrixOP->VectorPrint($razon);
@@ -347,16 +342,6 @@ class SimplexRevisado{
 					}
 					print "<h4>Paso 4</h4>";
 					print "<p>variable saliente: ".$this->x[$nnobasicas + $vsaliente]."</p>";
-					
-					
-					print "<h4>vsaliente  ";
-					print $vsaliente;
-					print " </h4>";
-					
-
-					print "<h4>ventrante  ";
-					print $ventrante;
-					print " </h4>";
 
 
 					for ($j = 0; $j < $n; $j++){
@@ -365,25 +350,14 @@ class SimplexRevisado{
 						$this->AI[$j][$ventrante] = $intercambio;
 					}	
 
-					/*
-					$intercambio = $Cb[$vsaliente];
 					$Cb[$vsaliente] = $this->c[$ventrante];
-					$Cb[$ventrante] = $intercambio;
-					*/
-
-					$Cb[$vsaliente] = $this->c[$ventrante];
-					
-					print "<p>nueva matriz B</p>";
-					$matrixOP->MatrixPrint($B);
-
 
 					$intercambio = $this->c[$nnobasicas + $vsaliente];
 					$this->c[$nnobasicas + $vsaliente] = $this->c[$ventrante];
 					$this->c[$ventrante] = $intercambio;
 
-
-
-
+					print "<p>nueva matriz B</p>";
+					$matrixOP->MatrixPrint($B);				
 				}
 			}
 			$iteracion++;
