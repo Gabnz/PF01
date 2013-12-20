@@ -222,6 +222,8 @@ class SimplexRevisado{
 		print "<p>Lado derecho</p>";
 		$matrixOP->VectorPrint($this->b);
 		$iteracion = 0;
+
+		
 		while(!$detenerse){
 			print "<h1>Iteracion ".$iteracion."</h1>";
 			/*Paso 1. Se calcula B^(-1)*/
@@ -361,9 +363,16 @@ class SimplexRevisado{
 						$intercambio = $B[$j][$vsaliente];
 						$B[$j][$vsaliente] = $this->AI[$j][$ventrante];
 						$this->AI[$j][$ventrante] = $intercambio;
-					}				
+					}	
+
+					/*
+					$intercambio = $Cb[$vsaliente];
+					$Cb[$vsaliente] = $this->c[$ventrante];
+					$Cb[$ventrante] = $intercambio;
+					*/
 
 					$Cb[$vsaliente] = $this->c[$ventrante];
+					
 					print "<p>nueva matriz B</p>";
 					$matrixOP->MatrixPrint($B);
 
@@ -371,6 +380,10 @@ class SimplexRevisado{
 					$intercambio = $this->c[$nnobasicas + $vsaliente];
 					$this->c[$nnobasicas + $vsaliente] = $this->c[$ventrante];
 					$this->c[$ventrante] = $intercambio;
+
+
+
+
 				}
 			}
 			$iteracion++;
