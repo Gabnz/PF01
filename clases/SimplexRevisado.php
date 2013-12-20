@@ -185,7 +185,6 @@ class SimplexRevisado{
 	}
 	
 	public function metodoSimplexRevisado(){
-		
 		$matrixOP = new MatrixOP;
 		/*Paso 0. $B tiene la matriz identidad y $Cb tiene ceros.*/
 		$n = count($this->AI);
@@ -205,6 +204,7 @@ class SimplexRevisado{
 
 		while(!$detenerse){
 			
+			print "<p>Iteracion ".$iteracion."</p>";
 			$esOptima = true;
 			/*Paso 1. Se calcula B^(-1)*/
 			$B_1 = $matrixOP->Cofactor($B, $n);
@@ -336,24 +336,24 @@ class SimplexRevisado{
 				$resultado[$j]+=$filas[$i][$j];
 			}
 		}
-
+		
 		$matrixOP = new MatrixOP;
 		print "<p>Ecuacion resultante</p>";
 		$matrixOP->VectorPrint($resultado);
-
+		
 		for ($i=0; $i < $ncolumnas; $i++) { 
 			$z[$i] = $resultado[$i] * -1;
 		}
 		$z[$i - 1] = $resultado[$i - 1];
-
+		
 		print "<p> Vector z </p>";
 		$matrixOP->VectorPrint($z);
-
-
-
+		
 		print "<p> Matriz AI </p>";
 		$matrixOP->MatrixPrint($this->AI);
-
+		
+		/*fase 2*/
+		//$this->metodoSimplexRevisado();
 		
 		print "<p>veo que quieres ejecutar el metodo de las dos fases. seria una lastima si...</p>";
 	}
