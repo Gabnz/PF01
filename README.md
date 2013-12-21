@@ -26,12 +26,12 @@ PF01
 
 0. Carga de datos.
 
-1. Conversion de un modelo en su forma estandar (listo, comprobar).
+1. Conversion de un modelo en su forma estandar (listo).
 
-2. Implementacion de las dos fases.
+2. Implementacion de las dos fases (en proceso).
 
-3. Aplicacion del metodo Simplex revisado.
+3. Aplicacion del metodo Simplex revisado (listo).
 
-4. Muestra de los resultados.
+4. Muestra de los resultados (listo).
 
-5. Desarrollo de la interfaz.
+5. Desarrollo de la interfaz (listo).

@@ -1,152 +1,71 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	<meta charset="UTF-8" />
-	<title>Proyecto de FOC 1</title>
-	</head>
-	<body>
-		<div align="center">Simplex Revisado</div>
-		<?php
+<?php
+include 'header.php';
+session_start();
+include 'clases/SimplexRevisado.php';
+?>
 
-			include 'clases/SimplexRevisado.php';
-			$problemaOriginal = new SimplexRevisado;
+<?php
+	$problemaOriginal = new SimplexRevisado;
+	
+	/*carga simulada de datos*/
+	$objetivo = 'MAX';
+	$_SESSION['objetivo'] = $objetivo;
+	$c = Array(5, 4);
+	$_SESSION['c'] = $c;
+	$x = Array('x1','x2');
+	$_SESSION['x'] = $x;
+	$AI = Array(Array(6, 4), Array(1, 2), Array(-1, 1), Array(0, 1));
+	$_SESSION['AI'] = $AI;
+	$restricciones = Array('<=', '<=', '<=', '<=');
+	$_SESSION['restricciones'] = $restricciones;
+	$b = Array(24, 6, 1, 2);
+	$_SESSION['b'] = $b;
+	$nincognitas = 2;
+	$problemaOriginal->setObjetivo($objetivo);
+	$problemaOriginal->setC($c);
+	$problemaOriginal->setX($x);
+	$problemaOriginal->setAI($AI);
+	$problemaOriginal->setRestricciones($restricciones);
+	$problemaOriginal->setB($b);
+	$problemaOriginal->setNIncognitas($nincognitas);
+	/*fin de carga simulada*/
+	
+	/*Transformacion del modelo a su forma estandar*/
+	/*Primero verifica ellado derecho de las restricciones para asegurarse de tenerlos
+	 * todos positivos*/
+	$problemaOriginal->noNegatividad();
+	/*Se pasa el modelo a su forma estandar*/
+	$problemaOriginal->formaEstandar();
+	
+	$c = $problemaOriginal->getC();
+	$_SESSION['cEstandar'] = $c;
+	$x = $problemaOriginal->getX();
+	$_SESSION['xEstandar'] = $x;
+	$AI = $problemaOriginal->getAI();
+	$_SESSION['AIEstandar'] = $AI;
+	$restricciones = $problemaOriginal->getRestricciones();
+	$_SESSION['restriccionesEstandar'] = $restricciones;
+	$b = $problemaOriginal->getB();
+	$_SESSION['bEstandar'] = $b;
+	
+	if(!$problemaOriginal->existenArtificiales())
+		$problemaOriginal->metodoSimplexRevisado($objetivo);
+	else{
+		print "<div align='center' style='background-color:#FF5123; width:30%;'><h3>Metodo de las 2 fases incompleto</h3></div>";
+	}
+	
+	$_SESSION['z'] = $problemaOriginal->getZ();
+	$AI = $problemaOriginal->getAI();
+	$_SESSION['AIOptima'] = $AI;
+	$b = $problemaOriginal->getB();
+	$_SESSION['bOptima'] = $b;
+?>
 
-			/*carga simulada de datos */
-			$objetivo = 'MIN';
-			$c = Array(4, 1);
-			$x = Array('x1','x2');
-			$AI = Array(Array(3, 1), Array(4, 3), Array(1, 2));
-			$restricciones = Array('=', '>=', '<=');
-			$b = Array(3, 6, 4);
-			$nincognitas = 2;
-			$problemaOriginal->setObjetivo($objetivo);
-			$problemaOriginal->setC($c);
-			$problemaOriginal->setX($x);
-			$problemaOriginal->setAI($AI);
-			$problemaOriginal->setRestricciones($restricciones);
-			$problemaOriginal->setB($b);
-			$problemaOriginal->setNIncognitas($nincognitas);
-			/*fin de carga simulada*/
+<div align="center" style="margin:10%; background-color:#FF5123;"><p style="font-size:20px;">Por problemas sin posibilidad de resolver antes de la entrega, la entrada solo se
+realizara directamente desde el codigo y de alli se ejecutaran los algoritmos para la resolucion del problema.</p></div>
 
+<div align="center"><a href="resultado.php" class="boton">Procesar</a></div>
 
-
-
-			/*carga simulada de datos 
-			$objetivo = 'MAX';
-			$c = Array(3, 5);
-			$x = Array('x1','x2');
-			$AI = Array(Array(1, 0), Array(0, 2), Array(3, 2));
-			$restricciones = Array('<=', '<=', '<=');
-			$b = Array(4, 12, 18);
-			$nincognitas = 2;
-			$problemaOriginal->setObjetivo($objetivo);
-			$problemaOriginal->setC($c);
-			$problemaOriginal->setX($x);
-			$problemaOriginal->setAI($AI);
-			$problemaOriginal->setRestricciones($restricciones);
-			$problemaOriginal->setB($b);
-			$problemaOriginal->setNIncognitas($nincognitas);
-			/*fin de carga simulada*/
-			
-			/*carga simulada de datos
-			$objetivo = 'MAX';
-			$c = Array(5, 4);
-			$x = Array('x1','x2');
-			$AI = Array(Array(6, 4), Array(1, 2), Array(-1, 1), Array(0, 1));
-			$restricciones = Array('<=', '<=', '<=', '<=');
-			$b = Array(24, 6, 1, 2);
-			$nincognitas = 2;
-			$problemaOriginal->setObjetivo($objetivo);
-			$problemaOriginal->setC($c);
-			$problemaOriginal->setX($x);
-			$problemaOriginal->setAI($AI);
-			$problemaOriginal->setRestricciones($restricciones);
-			$problemaOriginal->setB($b);
-			$problemaOriginal->setNIncognitas($nincognitas);
-			/*fin de carga simulada*/
-
-
-			/*carga simulada de datos ejemplo de kiara
-			$objetivo = 'MAX';
-			$c = Array(3, 5);
-			$x = Array('x1','x2');
-			$AI = Array(Array(1, 0), Array(0, 2), Array(3, 2));
-			$restricciones = Array('<=', '<=', '<=');
-			$b = Array(4, 12, 18);
-			$nincognitas = 2;
-			$problemaOriginal->setObjetivo($objetivo);
-			$problemaOriginal->setC($c);
-			$problemaOriginal->setX($x);
-			$problemaOriginal->setAI($AI);
-			$problemaOriginal->setRestricciones($restricciones);
-			$problemaOriginal->setB($b);
-			$problemaOriginal->setNIncognitas($nincognitas);
-			/*fin de carga simulada*/
-
-			$problemaOriginal->noNegatividad();
-			
-			$AI = $problemaOriginal->getAI();
-			$restricciones = $problemaOriginal->getRestricciones();
-			$b = $problemaOriginal->getB();
-			$x = $problemaOriginal->getX();
-			$c = $problemaOriginal->getC();
-			
-			print "<h1>Matriz (A,I) antes de estandarizar el modelo</h1>";
-			
-			print "funcion objetivo: ";
-			for ($i = 0; $i < count($c); $i++)
-				print $c[$i]." ";
-			
-			for ($i = 0; $i < count($b); $i++){
-				print "<p>";
-				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
-					print $AI[$i][$j]." ";
-				}
-				print $restricciones[$i]." ".$b[$i]."</p>";
-			}
-			print "<p>";
-			for ($i = 0; $i < $problemaOriginal->getNIncognitas(); $i++){
-				print $x[$i]." ";
-			}
-			print "</p>";
-			
-			$problemaOriginal->formaEstandar();
-			
-			$AI = $problemaOriginal->getAI();
-			$restricciones = $problemaOriginal->getRestricciones();
-			$b = $problemaOriginal->getB();
-			$x = $problemaOriginal->getX();
-			$c = $problemaOriginal->getC();
-			
-			print "<h1>Matriz (A,I) Despues de estandarizar el modelo</h1>";
-			
-			print "funcion objetivo: ";
-			for ($i = 0; $i < count($c); $i++)
-				print $c[$i]." ";
-				
-			for ($i = 0; $i < count($b); $i++){
-				print "<p>";
-				for ($j = 0; $j < $problemaOriginal->getNIncognitas(); $j++){
-					print $AI[$i][$j]." ";
-				}
-				print $restricciones[$i]." ".$b[$i]."</p>";
-			}
-			
-			print "<p>";
-			for ($i = 0; $i < $problemaOriginal->getNIncognitas(); $i++){
-				print $x[$i]." ";
-			}
-			print "</p>";
-			
+<?php include 'footer.php' ?>
 
 
-			if (!$problemaOriginal->existenArtificiales()){
-				print "entro here"; 
-			 	$problemaOriginal->metodoSimplexRevisado();
-			 }
-			 else
-				$problemaOriginal->metodoDosFases();
-			
-		?>
-	</body>
-</html>

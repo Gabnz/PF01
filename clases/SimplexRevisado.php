@@ -16,10 +16,12 @@ class SimplexRevisado{
 	private $b;
 	/*numero de incognitas*/
 	private $nincognitas;
+	/*valor optimo*/
+	private $z;
 	
 	/*constructor*/
 	public function SimplexRevisado(){
-		print '<p>instancia de clase creada.</p>';
+		$this->z = 0;
 	}
 	
 	public function setObjetivo($objetivoin){
@@ -50,6 +52,10 @@ class SimplexRevisado{
 		$this->nincognitas = $nincognitasin;
 	}
 	
+	public function setZ($zin){
+		$this->z = $zin;
+	}
+	
 	public function getObjetivo(){
 		return $this->objetivo;
 	}
@@ -76,6 +82,10 @@ class SimplexRevisado{
 	
 	public function getNIncognitas(){
 		return $this->nincognitas;
+	}
+	
+	public function getZ(){
+		return $this->z;
 	}
 	
 	/*se asegura que los lados derechos de las restricciones sean no-negativas,
@@ -184,7 +194,7 @@ class SimplexRevisado{
 		return false;
 	}
 	
-	public function metodoSimplexRevisado(){
+	public function metodoSimplexRevisado($objetivo){
 		$matrixOP = new MatrixOP;
 		/*Paso 0. $B tiene la matriz identidad y $Cb tiene ceros.*/
 		$n = count($this->AI);
@@ -200,11 +210,9 @@ class SimplexRevisado{
 					$B[$i][$j] = 1;
 			}
 		}
-		$iteracion = 0;
-
+		
 		while(!$detenerse){
 			
-			print "<p>Iteracion ".$iteracion."</p>";
 			$esOptima = true;
 			/*Paso 1. Se calcula B^(-1)*/
 			$B_1 = $matrixOP->Cofactor($B, $n);
@@ -219,21 +227,26 @@ class SimplexRevisado{
 				$z_c[$j] = $aux - $this->c[$j];
 				
 				/*evaluacion de condicion de parada de maximizacion y minimizacion*/
-				if(($this->objetivo == "MAX" && $z_c[$j] < 0)
-				|| ($this->objetivo == "MIN" && $z_c[$j] > 0))
+				if(($objetivo == "MAX" && $z_c[$j] < 0)
+				|| ($objetivo == "MIN" && $z_c[$j] > 0))
 					$esOptima = false;
 			}
 			
 			if($esOptima){
 				
-				print "listo, llegaste.";
-				print "<p> valor optimo de las variables X</p>";
+				//print "listo, llegaste.";
+				//print "<p> valor optimo de las variables X</p>";
 				$z = $matrixOP->MultiMxV($B_1,$this->b);
-				$matrixOP->VectorPrint($z);
+				//$matrixOP->VectorPrint($z);
 				$z_result = $matrixOP->MultiVxV($z,$Cb);
-				print "<p> valor de z </p>";
-				print $z_result;
-				print "<p> bueno chao </p>";
+				//print "<p> valor de z </p>";
+				//print $z_result;
+				//print "<p> bueno chao </p>";
+				
+				$this->z = $z_result;
+				$this->b = $Cb;
+				return true;
+				
 				$detenerse = true;
 			}else{
 				/*se elige la variable entrante*/
@@ -241,8 +254,8 @@ class SimplexRevisado{
 				
 				for($j = 0; $j < $nnobasicas; $j++){
 					
-					if(($this->objetivo == "MAX" && $z_c[$j] < $z_c[$ventrante])
-					|| ($this->objetivo == "MIN" && $z_c[$j] > $z_c[$ventrante]))
+					if(($objetivo == "MAX" && $z_c[$j] < $z_c[$ventrante])
+					|| ($objetivo == "MIN" && $z_c[$j] > $z_c[$ventrante]))
 						$ventrante = $j;
 				}
 				
@@ -261,7 +274,8 @@ class SimplexRevisado{
 				/*si no hay solucion acotada, detenerse.*/
 				if(!$solucionAcotada){
 					
-					print "no hay solucion acotada.";
+					//print "no hay solucion acotada.";
+					return false;
 					$detenerse = true;
 				}else{
 					
@@ -297,10 +311,11 @@ class SimplexRevisado{
 					$this->c[$ventrante] = $intercambio;
 				}
 			}
-			$iteracion++;
 		}
 	}
 	
+	/*Metodo que se encarga de encontrar una solucion inicial factible utilizando
+	 * variables artificiales*/
 	public function metodoDosFases(){
 		
 		/*fase 1*/
@@ -352,10 +367,9 @@ class SimplexRevisado{
 		print "<p> Matriz AI </p>";
 		$matrixOP->MatrixPrint($this->AI);
 		
-		/*fase 2*/
-		//$this->metodoSimplexRevisado();
+		//$this->metodoSimplexRevisado("MIN");
 		
-		print "<p>veo que quieres ejecutar el metodo de las dos fases. seria una lastima si...</p>";
+		return false;
 	}
 }
 ?>
